@@ -83,8 +83,8 @@
                     <input type="email" id="email" placeholder="Email" required>
                     <input type="password" id="password" placeholder="Password" required>
                     <button type="submit">Login</button>
-                    <button id="register-btn">Register as Organization</button>
-                    <button id="register-student-btn">Register as Student</button>
+                    <button type="button" id="register-btn">Register as Organization</button>
+                    <button type="button" id="register-student-btn">Register as Student</button>
                 </form>
             </section>
 
@@ -117,6 +117,15 @@
                     <textarea id="notification-message" placeholder="Write your notification here" required></textarea>
                     <button type="submit">Send Notification</button>
                 </form>
+                <!-- Send Hours Form -->
+                <form id="send-hours-form">
+                    <h3>Record Volunteer Hours</h3>
+                    <input type="email" id="student-email-for-hours" placeholder="Student Email" required>
+                    <input type="number" id="hours-amount" placeholder="Hours Amount" required>
+                    <button type="submit">Submit Hours</button>
+                </form>
+                <h3>Recorded Hours</h3>
+                <ul id="hours-list"></ul>
             </section>
         </div>
     </div>
@@ -129,6 +138,7 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
     
