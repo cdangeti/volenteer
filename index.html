@@ -113,21 +113,15 @@
             <!-- Organization Dashboard -->
             <section id="org-dashboard" style="display: none;">
                 <h2>Organization Dashboard</h2>
+                <form id="send-hours-form">
+                    <input type="email" id="student-email-for-hours" placeholder="Student Email" required>
+                    <input type="number" id="hours-amount" placeholder="Hours Amount" required>
+                    <button type="submit">Send Hours</button>
+                </form>
                 <form id="send-notification-form">
                     <textarea id="notification-message" placeholder="Write your notification here" required></textarea>
                     <button type="submit">Send Notification</button>
                 </form>
-
-                <!-- Send Hours Form -->
-                <section id="send-hours-section" style="display: none;">
-                    <h2>Send Hours to Students</h2>
-                    <form id="send-hours-form">
-                        <input type="email" id="student-email-for-hours" placeholder="Student Email" required>
-                        <input type="number" id="hours-amount" placeholder="Hours Amount" required>
-                        <button type="submit">Send Hours</button>
-                    </form>
-                    <ul id="hours-list"></ul>
-                </section>
             </section>
         </div>
     </div>
