@@ -152,20 +152,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle sending hours
     sendHoursForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const studentEmail = document.getElementById('student-email-for-hours').value;
-        const hoursAmount = parseInt(document.getElementById('hours-amount').value, 10);
-        const hours = JSON.parse(localStorage.getItem('hours')) || [];
+e.preventDefault();
 
-        // Add new hours to local storage
-        hours.push({ studentEmail, hours: hoursAmount });
-        localStorage.setItem('hours', JSON.stringify(hours));
+    const studentEmail = document.getElementById('student-email-for-hours').value;
+    const hoursAmount = parseInt(document.getElementById('hours-amount').value, 10);
+    const hours = JSON.parse(localStorage.getItem('hours')) || [];
+    const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
 
-        // Clear the form and show confirmation
-        document.getElementById('student-email-for-hours').value = '';
-        document.getElementById('hours-amount').value = '';
-        alert('Hours recorded!');
-        displayHours();
+    // Add new hours to local storage
+    hours.push({ studentEmail, hours: hoursAmount });
+    localStorage.setItem('hours', JSON.stringify(hours));
+
+    // Add a notification about the recorded hours
+    const newNotification = `Recorded ${hoursAmount} hours for ${studentEmail}.`;
+    notifications.push(newNotification);
+    localStorage.setItem('notifications', JSON.stringify(notifications));
+
+    // Clear the form and show confirmation
+    document.getElementById('student-email-for-hours').value = '';
+    document.getElementById('hours-amount').value = '';
+    alert('Hours recorded!');
+
+    // Update the hours list and notification list in the sidebar
+    displayHours();
+    displayNotifications();
     });
 
     // Initial display of notifications if logged in as student
