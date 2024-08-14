@@ -46,9 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (totalPoints <= 11) {
             finalResult = 'You are a Thinker! It is likely that you enjoy books and intellectual pursuits. Therefore, we recommend volunteering in areas that require you to use knowledge such as your local library or tutoring.';
         } else if (totalPoints <= 15) {
-            finalResult = 'You are a Tech Enthusiast! You love gadgets and the latest technology. Therefore, we recommend taking part in places that require your technological abilites such as teaching useful computer skills or coding';
+            finalResult = 'You are a Tech Enthusiast! You love gadgets and the latest technology. Therefore, we recommend taking part in places that require your technological abilities such as teaching useful computer skills or coding.';
         } else {
-            finalResult = 'You are an Artist! You are creative and express yourself through art. Therefore, we recommend volunteering in places that allow your artistic abilites to flourish such as a museum ';
+            finalResult = 'You are an Artist! You are creative and express yourself through art. Therefore, we recommend volunteering in places that allow your artistic abilities to flourish such as a museum.';
         }
         interestsDiv.textContent = `Interests: ${finalResult}`;
         quizSection.style.display = 'none';
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (isOrganization) {
             // Check organization credentials
-            const org = organizations.find(org.email === email && org.password === password);
+            const org = organizations.find(org => org.email === email && org.password === password);
             if (org) {
                 loginSection.style.display = 'none';
                 orgDashboard.style.display = 'block';
@@ -180,6 +180,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (studentRegisterSection.style.display === 'block') {
         displayNotifications();
     }
+
+    // Initial display of hours
+    displayHours();
+});
 
     // Initial display of hours
     displayHours();
