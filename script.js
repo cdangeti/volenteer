@@ -73,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        // Determine if the email is for an organization or student
         const isOrganization = email.includes('.org') && email.includes('@');
         const organizations = JSON.parse(localStorage.getItem('organizations')) || [];
         const students = JSON.parse(localStorage.getItem('students')) || [];
