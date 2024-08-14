@@ -69,7 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('password').value;
 
         // Simulate checking login credentials
-        const isOrganization = email.includes('@org.com'); // Example check
+        //const isOrganization = email.includes('@org.com'); // Example check
+        const isOrganization = email.includes('.org') && email.includes('@');
 
         if (isOrganization) {
             // Redirect to organization dashboard
