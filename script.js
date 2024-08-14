@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
             orgDashboard.style.display = 'block';
             displayNotifications();
             displayHours();
-        } else if (!isOrganization && studentFound) {
+        } else if (studentFound) {
             // Handle student login (e.g., show student dashboard)
             alert(`Logged in as student ${email}`);
             // Add logic for student dashboard if needed
