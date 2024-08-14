@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const orgFound = organizations.some(org => org.email === email && org.password === password);
         const studentFound = students.some(stu => stu.email === email && stu.password === password);
 
-        if (isOrganization && orgFound) {
+        if (orgFound) {
             // Redirect to organization dashboard
             loginSection.style.display = 'none';
             orgDashboard.style.display = 'block';
