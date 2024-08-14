@@ -17,15 +17,6 @@
                     <h3>Notifications</h3>
                     <ul id="notification-list"></ul>
                 </div>
-                <!-- New Hours Section -->
-                <div id="hours-section">
-                    <h3>Send Hours</h3>
-                    <form id="send-hours-form">
-                        <input type="email" id="student-email-for-hours" placeholder="Student Email" required>
-                        <input type="number" id="hours-amount" placeholder="Hours" required>
-                        <button type="submit">Send Hours</button>
-                    </form>
-                </div>
             </div>
         </aside>
 
@@ -126,6 +117,17 @@
                     <textarea id="notification-message" placeholder="Write your notification here" required></textarea>
                     <button type="submit">Send Notification</button>
                 </form>
+
+                <!-- Send Hours Form -->
+                <section id="send-hours-section" style="display: none;">
+                    <h2>Send Hours to Students</h2>
+                    <form id="send-hours-form">
+                        <input type="email" id="student-email-for-hours" placeholder="Student Email" required>
+                        <input type="number" id="hours-amount" placeholder="Hours Amount" required>
+                        <button type="submit">Send Hours</button>
+                    </form>
+                    <ul id="hours-list"></ul>
+                </section>
             </section>
         </div>
     </div>
@@ -139,10 +141,5 @@
 </body>
 </html>
 
-    <script src="script.js"></script>
-</body>
-</html>
 
-
-      
     
