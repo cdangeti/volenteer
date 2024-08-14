@@ -74,11 +74,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
+        // Check if user is an organization
         const isOrganization = email.includes('.org') && email.includes('@');
         const organizations = JSON.parse(localStorage.getItem('organizations')) || [];
         const students = JSON.parse(localStorage.getItem('students')) || [];
 
         if (isOrganization) {
+            // Check organization credentials
             const org = organizations.find(org => org.email === email && org.password === password);
             if (org) {
                 loginSection.style.display = 'none';
@@ -88,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Invalid organization credentials!');
             }
         } else {
+            // Check student credentials
             const student = students.find(student => student.email === email && student.password === password);
             if (student) {
                 loginSection.style.display = 'none';
