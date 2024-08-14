@@ -182,12 +182,3 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial display of hours
     displayHours();
 });
-
-        hoursAmount.value = '';
-    });
-
-    // Display notifications if logged in as student
-    if (loginSection.style.display === 'none' && orgDashboard.style.display === 'block') {
-        displayNotifications();
-    }
-});
