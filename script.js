@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle sending hours
     sendHoursForm.addEventListener('submit', (e) => {
-e.preventDefault();
+        e.preventDefault();
 
     const studentEmail = document.getElementById('student-email-for-hours').value;
     const hoursAmount = parseInt(document.getElementById('hours-amount').value, 10);
