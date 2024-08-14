@@ -80,14 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const orgFound = organizations.some(org => org.email === email && org.password === password);
         const studentFound = students.some(stu => stu.email === email && stu.password === password);
 
-        console.log('Email:', email);
-        console.log('Password:', password);
-        console.log('Is Organization:', isOrganization);
-        console.log('Organizations:', organizations);
-        console.log('Students:', students);
-        console.log('Organization Found:', orgFound);
-        console.log('Student Found:', studentFound);
-
         if (isOrganization && orgFound) {
             // Redirect to organization dashboard
             loginSection.style.display = 'none';
