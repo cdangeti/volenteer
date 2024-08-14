@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (isOrganization) {
             // Check organization credentials
-            const org = organizations.find(org => org.email === email && org.password === password);
+            const org = organizations.find(org.email === email && org.password === password);
             if (org) {
                 loginSection.style.display = 'none';
                 orgDashboard.style.display = 'block';
