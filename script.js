@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const orgRegisterSection = document.getElementById('org-register-section');
     const studentRegisterSection = document.getElementById('student-register-section');
     const orgDashboard = document.getElementById('org-dashboard');
+    const sendHoursSection = document.getElementById('send-hours-section');
     const sendNotificationForm = document.getElementById('send-notification-form');
     const notificationMessage = document.getElementById('notification-message');
     const studentRegisterForm = document.getElementById('student-register-form');
@@ -21,6 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const displayNotifications = () => {
         const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
         notificationList.innerHTML = notifications.map(notif => `<li>${notif}</li>`).join('');
+    };
+
+    // Display hours
+    const displayHours = () => {
+        const hours = JSON.parse(localStorage.getItem('hours')) || [];
+        document.getElementById('hours-list').innerHTML = hours.map(hour => `<li>${hour.student} (${hour.email}): ${hour.amount} hours</li>`).join('');
     };
 
     // Quiz form submission
@@ -40,9 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (totalPoints <= 11) {
             finalResult = 'You are a Thinker! It is likely that you enjoy books and intellectual pursuits. Therefore, we recommend volunteering in areas that require you to use knowledge such as your local library or tutoring.';
         } else if (totalPoints <= 15) {
-            finalResult = 'You are a Tech Enthusiast! You love gadgets and the latest technology. Therefore, we recommend taking part in places that require your technological abilities such as teaching useful computer skills or coding.';
+            finalResult = 'You are a Tech Enthusiast! You love gadgets and the latest technology. Therefore, we recommend taking part in places that require your technological abilites such as teaching useful computer skills or coding';
         } else {
-            finalResult = 'You are an Artist! You are creative and express yourself through art. Therefore, we recommend volunteering in places that allow your artistic abilities to flourish such as a museum.';
+            finalResult = 'You are an Artist! You are creative and express yourself through art. Therefore, we recommend volunteering in places that allow your artistic abilites to flourish such as a museum ';
         }
         interestsDiv.textContent = `Interests: ${finalResult}`;
         quizSection.style.display = 'none';
@@ -68,15 +75,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        // Simulate checking login credentials
         const isOrganization = email.includes('.org') && email.includes('@');
+        const organizations = JSON.parse(localStorage.getItem('organizations')) || [];
+        const students = JSON.parse(localStorage.getItem('students')) || [];
 
         if (isOrganization) {
-            // Redirect to organization dashboard
-            loginSection.style.display = 'none';
-            orgDashboard.style.display = 'block';
+            const org = organizations.find(org => org.email === email && org.password === password);
+            if (org) {
+                loginSection.style.display = 'none';
+                orgDashboard.style.display = 'block';
+                sendHoursSection.style.display = 'block';  // Show the send hours form
+            } else {
+                alert('Invalid organization credentials!');
+            }
         } else {
-            alert(`Logged in as ${email}`);
+            const student = students.find(student => student.email === email && student.password === password);
+            if (student) {
+                alert(`Logged in as ${student.name}`);
+                loginSection.style.display = 'none';
+                // Optionally show student dashboard or homepage
+            } else {
+                alert('Invalid student credentials!');
+            }
         }
     });
 
@@ -87,10 +107,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const orgEmail = document.getElementById('org-email').value;
         const orgPassword = document.getElementById('org-password').value;
 
-        // Save organization registration logic
+        let organizations = JSON.parse(localStorage.getItem('organizations')) || [];
+        organizations.push({ name: orgName, email: orgEmail, password: orgPassword });
+        localStorage.setItem('organizations', JSON.stringify(organizations));
+
         alert(`Organization ${orgName} registered with email ${orgEmail}`);
         
-        // Redirect to login after registration
         orgRegisterSection.style.display = 'none';
         loginSection.style.display = 'block';
     });
@@ -102,15 +124,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const studentEmail = document.getElementById('student-email').value;
         const studentPassword = document.getElementById('student-password').value;
 
-        // Save student registration logic
-        alert(`Student ${studentName} registered with email ${studentEmail}`);
-        
+        let students = JSON.parse(localStorage.getItem('students')) || [];
+        students.push({ name: studentName, email: studentEmail, password: studentPassword });
+        localStorage.setItem('students', JSON.stringify(students));
+
         // Initialize notifications for the student
         if (!localStorage.getItem('notifications')) {
             localStorage.setItem('notifications', JSON.stringify([]));
         }
 
-        // Redirect to login after registration
+        alert(`Student ${studentName} registered with email ${studentEmail}`);
+        
         studentRegisterSection.style.display = 'none';
         loginSection.style.display = 'block';
     });
@@ -131,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         displayNotifications();
     });
 
-    // Handle sending hours
+    // Send hours form submission
     sendHoursForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const email = studentEmailForHours.value;
@@ -142,11 +166,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const hours = JSON.parse(localStorage.getItem('hours')) || [];
             hours.push({ student: student.name, email: student.email, amount });
             localStorage.setItem('hours', JSON.stringify(hours));
-            displayHours(); // Make sure you have a function to display hours
+            displayHours();
         } else {
             alert('Student not found!');
         }
         studentEmailForHours.value = '';
+        hoursAmount.value = '';
+    });
+
+    // Initial display of notifications if logged in as student
+    if (studentRegisterSection.style.display === 'block') {
+        displayNotifications();
+    }
+
+    // Initial display of hours
+    displayHours();
+});
+
         hoursAmount.value = '';
     });
 
