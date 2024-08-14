@@ -16,18 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendHoursForm = document.getElementById('send-hours-form');
     const studentEmailForHours = document.getElementById('student-email-for-hours');
     const hoursAmount = document.getElementById('hours-amount');
-    const hoursList = document.getElementById('hours-list');
 
     // Display notifications
     const displayNotifications = () => {
         const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
         notificationList.innerHTML = notifications.map(notif => `<li>${notif}</li>`).join('');
-    };
-
-    // Display hours
-    const displayHours = () => {
-        const hours = JSON.parse(localStorage.getItem('hours')) || [];
-        hoursList.innerHTML = hours.map(hour => `<li>${hour.student} (${hour.email}): ${hour.amount} hours</li>`).join('');
     };
 
     // Quiz form submission
@@ -76,14 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('password').value;
 
         // Simulate checking login credentials
-        //const isOrganization = email.includes('@org.com'); // Example check
         const isOrganization = email.includes('.org') && email.includes('@');
 
         if (isOrganization) {
             // Redirect to organization dashboard
             loginSection.style.display = 'none';
             orgDashboard.style.display = 'block';
-            document.getElementById('send-hours-section').style.display = 'block'; // Show send hours form
         } else {
             alert(`Logged in as ${email}`);
         }
@@ -140,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         displayNotifications();
     });
 
-    // Send hours form submission
+    // Handle sending hours
     sendHoursForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const email = studentEmailForHours.value;
@@ -151,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const hours = JSON.parse(localStorage.getItem('hours')) || [];
             hours.push({ student: student.name, email: student.email, amount });
             localStorage.setItem('hours', JSON.stringify(hours));
-            displayHours();
+            displayHours(); // Make sure you have a function to display hours
         } else {
             alert('Student not found!');
         }
@@ -159,8 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
         hoursAmount.value = '';
     });
 
-    // Initial display of notifications if logged in as student
-    if (studentRegisterSection.style.display === 'block') {
+    // Display notifications if logged in as student
+    if (loginSection.style.display === 'none' && orgDashboard.style.display === 'block') {
         displayNotifications();
     }
 });
