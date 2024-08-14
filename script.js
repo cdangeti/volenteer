@@ -16,12 +16,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendHoursForm = document.getElementById('send-hours-form');
     const studentEmailForHours = document.getElementById('student-email-for-hours');
     const hoursAmount = document.getElementById('hours-amount');
-    const sendHoursSection = document.getElementById('send-hours-section');
+    const hoursList = document.getElementById('hours-list');
 
     // Display notifications
     const displayNotifications = () => {
         const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
         notificationList.innerHTML = notifications.map(notif => `<li>${notif}</li>`).join('');
+    };
+
+    // Display hours
+    const displayHours = () => {
+        const hours = JSON.parse(localStorage.getItem('hours')) || [];
+        hoursList.innerHTML = hours.map(hour => `<li>${hour.student} (${hour.email}): ${hour.amount} hours</li>`).join('');
     };
 
     // Quiz form submission
@@ -41,9 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (totalPoints <= 11) {
             finalResult = 'You are a Thinker! It is likely that you enjoy books and intellectual pursuits. Therefore, we recommend volunteering in areas that require you to use knowledge such as your local library or tutoring.';
         } else if (totalPoints <= 15) {
-            finalResult = 'You are a Tech Enthusiast! You love gadgets and the latest technology. Therefore, we recommend taking part in places that require your technological abilities such as teaching useful computer skills or coding';
+            finalResult = 'You are a Tech Enthusiast! You love gadgets and the latest technology. Therefore, we recommend taking part in places that require your technological abilities such as teaching useful computer skills or coding.';
         } else {
-            finalResult = 'You are an Artist! You are creative and express yourself through art. Therefore, we recommend volunteering in places that allow your artistic abilities to flourish such as a museum ';
+            finalResult = 'You are an Artist! You are creative and express yourself through art. Therefore, we recommend volunteering in places that allow your artistic abilities to flourish such as a museum.';
         }
         interestsDiv.textContent = `Interests: ${finalResult}`;
         quizSection.style.display = 'none';
@@ -70,13 +76,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('password').value;
 
         // Simulate checking login credentials
+        //const isOrganization = email.includes('@org.com'); // Example check
         const isOrganization = email.includes('.org') && email.includes('@');
 
         if (isOrganization) {
             // Redirect to organization dashboard
             loginSection.style.display = 'none';
             orgDashboard.style.display = 'block';
-            sendHoursSection.style.display = 'block'; // Show the "Send Hours" section
+            document.getElementById('send-hours-section').style.display = 'block'; // Show send hours form
         } else {
             alert(`Logged in as ${email}`);
         }
@@ -152,10 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
         hoursAmount.value = '';
     });
 
-    // Function to display hours (assuming you have this defined)
-    function displayHours() {
-        const hoursList = document.getElementById('hours-list');
-        const hours = JSON.parse(localStorage.getItem('hours')) || [];
-        hoursList.innerHTML = hours.map(entry => `<li>${entry.student}: ${entry.amount} hours</li>`).join('');
+    // Initial display of notifications if logged in as student
+    if (studentRegisterSection.style.display === 'block') {
+        displayNotifications();
     }
 });
