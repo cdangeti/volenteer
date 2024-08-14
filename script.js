@@ -8,15 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const orgRegisterSection = document.getElementById('org-register-section');
     const studentRegisterSection = document.getElementById('student-register-section');
     const orgDashboard = document.getElementById('org-dashboard');
-    const sendHoursForm = document.getElementById('send-hours-form');
     const sendNotificationForm = document.getElementById('send-notification-form');
     const notificationMessage = document.getElementById('notification-message');
     const studentRegisterForm = document.getElementById('student-register-form');
     const orgRegisterForm = document.getElementById('org-register-form');
     const notificationList = document.getElementById('notification-list');
-    const studentEmailForHours = document.getElementById('student-email-for-hours');
-    const hoursAmount = document.getElementById('hours-amount');
-    const loginForm = document.getElementById('login-form');
+    const hoursList = document.getElementById('hours-list');
+    const sendHoursForm = document.getElementById('send-hours-form');
 
     // Display notifications
     const displayNotifications = () => {
@@ -27,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Display hours
     const displayHours = () => {
         const hours = JSON.parse(localStorage.getItem('hours')) || [];
-        document.getElementById('hours-list').innerHTML = hours.map(hour => `<li>${hour.student} (${hour.email}): ${hour.amount} hours</li>`).join('');
+        hoursList.innerHTML = hours.map(hour => `<li>${hour.studentEmail}: ${hour.hours} hours</li>`).join('');
     };
 
     // Quiz form submission
@@ -47,9 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (totalPoints <= 11) {
             finalResult = 'You are a Thinker! It is likely that you enjoy books and intellectual pursuits. Therefore, we recommend volunteering in areas that require you to use knowledge such as your local library or tutoring.';
         } else if (totalPoints <= 15) {
-            finalResult = 'You are a Tech Enthusiast! You love gadgets and the latest technology. Therefore, we recommend taking part in places that require your technological abilities such as teaching useful computer skills or coding.';
+            finalResult = 'You are a Tech Enthusiast! You love gadgets and the latest technology. Therefore, we recommend taking part in places that require your technological abilities such as teaching useful computer skills or coding';
         } else {
-            finalResult = 'You are an Artist! You are creative and express yourself through art. Therefore, we recommend volunteering in places that allow your artistic abilities to flourish such as a museum.';
+            finalResult = 'You are an Artist! You are creative and express yourself through art. Therefore, we recommend volunteering in places that allow your artistic abilities to flourish such as a museum';
         }
         interestsDiv.textContent = `Interests: ${finalResult}`;
         quizSection.style.display = 'none';
@@ -69,32 +67,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Handle login form submission
+    const loginForm = document.getElementById('login-form');
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        // Check if the email is for an organization
+        // Check login credentials
         const isOrganization = email.includes('.org') && email.includes('@');
-        
-        // Get stored users
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        const orgs = JSON.parse(localStorage.getItem('orgs')) || [];
-        
-        // Check if the credentials match
-        const user = users.find(user => user.email === email && user.password === password);
-        const org = orgs.find(org => org.email === email && org.password === password);
+        const organizations = JSON.parse(localStorage.getItem('organizations')) || [];
+        const students = JSON.parse(localStorage.getItem('students')) || [];
 
-        if (user) {
-            alert(`Logged in as Student ${email}`);
-            loginSection.style.display = 'none';
-            quizSection.style.display = 'block'; // Redirect to the quiz section
-        } else if (org) {
+        const orgFound = organizations.some(org => org.email === email && org.password === password);
+        const studentFound = students.some(stu => stu.email === email && stu.password === password);
+
+        if (isOrganization && orgFound) {
+            // Redirect to organization dashboard
             loginSection.style.display = 'none';
             orgDashboard.style.display = 'block';
-            displayNotifications(); // Show notifications for organizations
+            displayNotifications();
+            displayHours();
+        } else if (!isOrganization && studentFound) {
+            // Handle student login (e.g., show student dashboard)
+            alert(`Logged in as student ${email}`);
         } else {
-            alert('Invalid credentials!');
+            alert('Invalid credentials');
         }
     });
 
@@ -106,10 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const orgPassword = document.getElementById('org-password').value;
 
         // Save organization registration to local storage
-        const orgs = JSON.parse(localStorage.getItem('orgs')) || [];
-        orgs.push({ name: orgName, email: orgEmail, password: orgPassword });
-        localStorage.setItem('orgs', JSON.stringify(orgs));
-        
+        const organizations = JSON.parse(localStorage.getItem('organizations')) || [];
+        organizations.push({ name: orgName, email: orgEmail, password: orgPassword });
+        localStorage.setItem('organizations', JSON.stringify(organizations));
+
         // Redirect to login after registration
         orgRegisterSection.style.display = 'none';
         loginSection.style.display = 'block';
@@ -123,10 +120,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const studentPassword = document.getElementById('student-password').value;
 
         // Save student registration to local storage
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        users.push({ name: studentName, email: studentEmail, password: studentPassword });
-        localStorage.setItem('users', JSON.stringify(users));
-        
+        const students = JSON.parse(localStorage.getItem('students')) || [];
+        students.push({ name: studentName, email: studentEmail, password: studentPassword });
+        localStorage.setItem('students', JSON.stringify(students));
+
         // Initialize notifications for the student
         if (!localStorage.getItem('notifications')) {
             localStorage.setItem('notifications', JSON.stringify([]));
@@ -156,24 +153,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle sending hours
     sendHoursForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const email = studentEmailForHours.value;
-        const amount = hoursAmount.value;
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        const student = users.find(user => user.email === email);
-        if (student) {
-            const hours = JSON.parse(localStorage.getItem('hours')) || [];
-            hours.push({ student: student.name, email: student.email, amount });
-            localStorage.setItem('hours', JSON.stringify(hours));
-            displayHours();
-        } else {
-            alert('Student not found!');
-        }
-        studentEmailForHours.value = '';
-        hoursAmount.value = '';
+        const studentEmail = document.getElementById('student-email-for-hours').value;
+        const hoursAmount = parseInt(document.getElementById('hours-amount').value, 10);
+        const hours = JSON.parse(localStorage.getItem('hours')) || [];
+
+        // Add new hours to local storage
+        hours.push({ studentEmail, hours: hoursAmount });
+        localStorage.setItem('hours', JSON.stringify(hours));
+
+        // Clear the form and show confirmation
+        document.getElementById('student-email-for-hours').value = '';
+        document.getElementById('hours-amount').value = '';
+        alert('Hours recorded!');
+        displayHours();
     });
 
     // Initial display of notifications if logged in as student
-    if (loginSection.style.display === 'none' && orgDashboard.style.display === 'none') {
+    if (studentRegisterSection.style.display === 'block') {
         displayNotifications();
     }
 });
+
