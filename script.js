@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const orgRegisterSection = document.getElementById('org-register-section');
     const studentRegisterSection = document.getElementById('student-register-section');
     const orgDashboard = document.getElementById('org-dashboard');
-    const sendHoursSection = document.getElementById('send-hours-section');
+    const sendHoursSection = document.getElementById('send-hours-form');
     const sendNotificationForm = document.getElementById('send-notification-form');
     const notificationMessage = document.getElementById('notification-message');
     const studentRegisterForm = document.getElementById('student-register-form');
@@ -91,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             const student = students.find(student => student.email === email && student.password === password);
             if (student) {
-                alert(`Logged in as ${student.name}`);
                 loginSection.style.display = 'none';
                 // Optionally show student dashboard or homepage
             } else {
