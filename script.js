@@ -150,9 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
         displayNotifications();
     });
 
-    // Handle sending hours
-    sendHoursForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+sendHoursForm.addEventListener('submit', (e) => {
+    e.preventDefault();
 
     const studentEmail = document.getElementById('student-email-for-hours').value;
     const hoursAmount = parseInt(document.getElementById('hours-amount').value, 10);
@@ -176,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update the hours list and notification list in the sidebar
     displayHours();
     displayNotifications();
-    });
+});
 
     // Initial display of notifications if logged in as student
     if (studentRegisterSection.style.display === 'block') {
