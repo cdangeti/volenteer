@@ -184,7 +184,3 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial display of hours
     displayHours();
 });
-
-    // Initial display of hours
-    displayHours();
-});
