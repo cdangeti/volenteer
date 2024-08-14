@@ -13,6 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const studentRegisterForm = document.getElementById('student-register-form');
     const orgRegisterForm = document.getElementById('org-register-form');
     const notificationList = document.getElementById('notification-list');
+    const sendHoursForm = document.getElementById('send-hours-form');
+    const studentEmailForHours = document.getElementById('student-email-for-hours');
+    const hoursAmount = document.getElementById('hours-amount');
+    const sendHoursSection = document.getElementById('send-hours-section');
 
     // Display notifications
     const displayNotifications = () => {
@@ -72,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Redirect to organization dashboard
             loginSection.style.display = 'none';
             orgDashboard.style.display = 'block';
+            sendHoursSection.style.display = 'block'; // Show the "Send Hours" section
         } else {
             alert(`Logged in as ${email}`);
         }
@@ -129,9 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Send hours form submission
-    const sendHoursForm = document.getElementById('send-hours-form');
-    const studentEmailForHours = document.getElementById('student-email-for-hours');
-    const hoursAmount = document.getElementById('hours-amount');
     sendHoursForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const email = studentEmailForHours.value;
@@ -157,4 +159,3 @@ document.addEventListener('DOMContentLoaded', () => {
         hoursList.innerHTML = hours.map(entry => `<li>${entry.student}: ${entry.amount} hours</li>`).join('');
     }
 });
-
