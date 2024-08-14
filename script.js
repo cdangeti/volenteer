@@ -8,13 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const orgRegisterSection = document.getElementById('org-register-section');
     const studentRegisterSection = document.getElementById('student-register-section');
     const orgDashboard = document.getElementById('org-dashboard');
-    const sendHoursSection = document.getElementById('send-hours-form');
+    const sendHoursForm = document.getElementById('send-hours-form');
     const sendNotificationForm = document.getElementById('send-notification-form');
     const notificationMessage = document.getElementById('notification-message');
     const studentRegisterForm = document.getElementById('student-register-form');
     const orgRegisterForm = document.getElementById('org-register-form');
     const notificationList = document.getElementById('notification-list');
-    const sendHoursForm = document.getElementById('send-hours-form');
     const studentEmailForHours = document.getElementById('student-email-for-hours');
     const hoursAmount = document.getElementById('hours-amount');
 
@@ -84,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (org) {
                 loginSection.style.display = 'none';
                 orgDashboard.style.display = 'block';
-                sendHoursSection.style.display = 'block';  // Show the send hours form
+                sendHoursForm.style.display = 'block'; // Show the send hours form
             } else {
                 alert('Invalid organization credentials!');
             }
@@ -93,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (student) {
                 loginSection.style.display = 'none';
                 // Optionally show student dashboard or homepage
+                alert('Logged in as student!');
             } else {
                 alert('Invalid student credentials!');
             }
