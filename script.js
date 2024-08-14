@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const quizForm = document.getElementById('quiz-form');
     const loginSection = document.getElementById('login-section');
@@ -16,22 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const orgRegisterForm = document.getElementById('org-register-form');
     const notificationList = document.getElementById('notification-list');
 
-    // Elements for sending hours
-    const sendHoursForm = document.getElementById('send-hours-form');
-    const studentEmailForHours = document.getElementById('student-email-for-hours');
-    const hoursAmount = document.getElementById('hours-amount');
-
     // Display notifications
     const displayNotifications = () => {
         const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
         notificationList.innerHTML = notifications.map(notif => `<li>${notif}</li>`).join('');
-    };
-
-    // Display hours
-    const displayHours = () => {
-        // Implement logic to display hours if needed
-        const hours = JSON.parse(localStorage.getItem('hours')) || [];
-        // You can create a display for hours similar to notifications
     };
 
     // Quiz form submission
@@ -51,9 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (totalPoints <= 11) {
             finalResult = 'You are a Thinker! It is likely that you enjoy books and intellectual pursuits. Therefore, we recommend volunteering in areas that require you to use knowledge such as your local library or tutoring.';
         } else if (totalPoints <= 15) {
-            finalResult = 'You are a Tech Enthusiast! You love gadgets and the latest technology. Therefore, we recommend taking part in places that require your technological abilities such as teaching useful computer skills or coding.';
+            finalResult = 'You are a Tech Enthusiast! You love gadgets and the latest technology. Therefore, we recommend taking part in places that require your technological abilities such as teaching useful computer skills or coding';
         } else {
-            finalResult = 'You are an Artist! You are creative and express yourself through art. Therefore, we recommend volunteering in places that allow your artistic abilities to flourish such as a museum.';
+            finalResult = 'You are an Artist! You are creative and express yourself through art. Therefore, we recommend volunteering in places that allow your artistic abilities to flourish such as a museum ';
         }
         interestsDiv.textContent = `Interests: ${finalResult}`;
         quizSection.style.display = 'none';
@@ -121,14 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('notifications', JSON.stringify([]));
         }
 
-        // Initialize student data
-        if (!localStorage.getItem('students')) {
-            localStorage.setItem('students', JSON.stringify([]));
-        }
-        const students = JSON.parse(localStorage.getItem('students')) || [];
-        students.push({ name: studentName, email: studentEmail });
-        localStorage.setItem('students', JSON.stringify(students));
-
         // Redirect to login after registration
         studentRegisterSection.style.display = 'none';
         loginSection.style.display = 'block';
@@ -150,7 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
         displayNotifications();
     });
 
-    // Handle sending hours
+    // Send hours form submission
+    const sendHoursForm = document.getElementById('send-hours-form');
+    const studentEmailForHours = document.getElementById('student-email-for-hours');
+    const hoursAmount = document.getElementById('hours-amount');
     sendHoursForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const email = studentEmailForHours.value;
@@ -169,8 +150,11 @@ document.addEventListener('DOMContentLoaded', () => {
         hoursAmount.value = '';
     });
 
-    // Check if logged in as student and display notifications
-    if (loginSection.style.display === 'none' && studentRegisterSection.style.display === 'none') {
-        displayNotifications();
+    // Function to display hours (assuming you have this defined)
+    function displayHours() {
+        const hoursList = document.getElementById('hours-list');
+        const hours = JSON.parse(localStorage.getItem('hours')) || [];
+        hoursList.innerHTML = hours.map(entry => `<li>${entry.student}: ${entry.amount} hours</li>`).join('');
     }
 });
+
